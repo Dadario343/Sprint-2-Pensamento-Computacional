@@ -125,6 +125,19 @@ flowchart LR
     C --> S
 ```
 ---
+## Simulação funcional (protótipo físico)
+
+| Componente | Função |
+|---|---|
+| **Sensor de Efeito Hall** | Mede a corrente elétrica que passa pelo cabo de carga sem contato direto |
+| **ESP32** | Microcontrolador com Wi-Fi integrado; processa os dados e os envia ao servidor |
+| **Caixa MDF** | Estrutura física do protótipo representando a estação de recarga |
+| **Extensão elétrica** | Simula o cabo de carga do ponto de recarga |
+| **Carregador de pilha AAA** | Fonte de alimentação do circuito durante a demonstração |
+
+> O protótipo foi montado com uma caixinha de MDF, um carrinho de plástico representando o VE e o QR Code impresso na face frontal da estação para identificação do usuário.
+
+---
 
 ## Componentes de software
 
@@ -139,7 +152,7 @@ Painel de controle
 └── Painel.py # Sistema de cobrança no terminal (pré/pós-pago)
 ```
 
-### Dashboard web (`index.html` + `script.js` + `style.css`)
+### Dashboard web (`index.html` + `script.js` + `style.css`) (Prova de Conceito)
 
 - Exibe potência total, sessões ativas, energia acumulada e % de demanda
 - Atualiza automaticamente a cada segundo via `setInterval`
@@ -147,7 +160,7 @@ Painel de controle
 - Gráfico de potência em tempo real com Chart.js
 - Botões para iniciar e encerrar sessões de carregamento
 
-### Sistema de cobrança CLI (`Painel.py`)
+### Sistema de cobrança CLI (`Painel.py`) (Prova de conceito)
 
 - Menu interativo no terminal
 - **Pré-pago:** limita o carregamento ao crédito inserido e encerra automaticamente
