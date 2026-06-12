@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChargeGrid Intelligence — Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h2 class="sr-only">
+    Dashboard de monitoramento ChargeGrid Intelligence —
+    estações de carregamento de veículos elétricos em tempo real
+  </h2>
+
+  <!-- ── Header ─────────────────────────────────────────── -->
+  <div class="hdr">
+    <div class="hdr-left">
+      <div class="logo">⚡</div>
+      <div>
+        <div style="font-size:15px; font-weight:500;">ChargeGrid Intelligence</div>
+        <div style="font-size:12px; color:#555;">FIAP · GoodWe Challenge · Sprint 2</div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span id="clock" style="font-size:13px; color:#555; font-family:monospace;"></span>
+      <span class="badge badge-live">● ao vivo</span>
+    </div>
+  </div>
+
+  <!-- ── Alerta de demanda alta ──────────────────────────── -->
+  <div id="alert-bar" class="alert-bar" style="display:none;">
+    ⚠️ <span id="alert-msg">Demanda acima do limite na estação 02</span>
+  </div>
+
+  <!-- ── Métricas gerais ────────────────────────────────── -->
+  <div class="metrics">
+    <div class="metric">
+      <label>Potência total</label>
+      <div class="val" id="m-power">0,0 kW</div>
+      <div class="sub">de 30 kW disponíveis</div>
+    </div>
+    <div class="metric">
+      <label>Sessões ativas</label>
+      <div class="val" id="m-sessions">0</div>
+      <div class="sub">de 3 estações</div>
+    </div>
+    <div class="metric">
+      <label>Energia hoje</label>
+      <div class="val" id="m-energy">0,00 kWh</div>
+      <div class="sub" id="m-energy-sub">R$ 0,00 faturado</div>
+    </div>
+    <div class="metric">
+      <label>Demanda atual</label>
+      <div class="val" id="m-demand">0%</div>
+      <div class="sub" id="m-demand-sub">dentro do limite</div>
+    </div>
+  </div>
+
+  <!-- ── Grid principal: estações + barras ─────────────── -->
+  <div class="grid2">
+
+    <!-- Estações de carregamento -->
+    <div class="card">
+      <div class="card-title">Estações de carregamento</div>
+
+      <div class="station" id="st0">
+        <div class="st-icon on" id="st0-icon">🔌</div>
+        <div class="st-info">
+          <div class="st-name">Estação 01 — Bloco A</div>
+          <div class="st-detail" id="st0-detail">
+            Carregando · <span id="st0-time">00:00</span>
+          </div>
+        </div>
+        <div class="st-right">
+          <div class="st-kw"  id="st0-kw">0,0 kW</div>
+          <div class="st-cost" id="st0-cost">R$ 0,00</div>
+        </div>
+      </div>
+
+      <div class="station" id="st1">
+        <div class="st-icon warn" id="st1-icon">🔌</div>
+        <div class="st-info">
+          <div class="st-name">Estação 02 — Estacionamento</div>
+          <div class="st-detail" id="st1-detail">
+            Demanda alta · <span id="st1-time">00:00</span>
+          </div>
+        </div>
+        <div class="st-right">
+          <div class="st-kw"  id="st1-kw">0,0 kW</div>
+          <div class="st-cost" id="st1-cost">R$ 0,00</div>
+        </div>
+      </div>
+
+      <div class="station" id="st2">
+        <div class="st-icon off" id="st2-icon">🔌</div>
+        <div class="st-info">
+          <div class="st-name">Estação 03 — Bloco B</div>
+          <div class="st-detail" id="st2-detail">Disponível</div>
+        </div>
+        <div class="st-right">
+          <div class="st-kw"  id="st2-kw">—</div>
+          <div class="st-cost" id="st2-cost"></div>
+        </div>
+      </div>
+
+      <div class="station-controls">
+        <button class="ctrl-btn primary" onclick="startSession()">▶ Iniciar sessão</button>
+        <button class="ctrl-btn"         onclick="stopSession()">⏹ Encerrar</button>
+      </div>
+    </div>
+
+    <!-- Barras de demanda por hora -->
+    <div class="card">
+      <div class="card-title">Demanda por hora</div>
+      <div id="bars"></div>
+      <div style="margin-top:12px; border-top:0.5px solid #ddd; padding-top:10px;">
+        <div style="font-size:12px; color:#555;">Limite contratado: 30 kW</div>
+        <div style="font-size:12px; color:#555; margin-top:2px;">Tarifa: R$ 0,85/kWh</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Gráfico de potência ────────────────────────────── -->
+  <div class="card" style="margin-bottom:1.25rem;">
+    <div class="card-title">Gráfico de potência — sessão ativa</div>
+    <canvas id="chartCanvas" height="110"></canvas>
+  </div>
+
+  <!-- ── Histórico de sessões ───────────────────────────── -->
+  <div class="card">
+    <div class="card-title">Últimas sessões</div>
+
+    <div class="session-row">
+      <div>
+        <div class="sess-user">Veículo #VE-2841</div>
+        <div class="sess-detail">Est. 01 · pós-pago · hoje 08:14</div>
+      </div>
+      <div class="sess-val">4,2 kWh · R$ 3,57</div>
+    </div>
+
+    <div class="session-row">
+      <div>
+        <div class="sess-user">Veículo #VE-1193</div>
+        <div class="sess-detail">Est. 02 · pós-pago · hoje 07:52</div>
+      </div>
+      <div class="sess-val">7,8 kWh · R$ 6,63</div>
+    </div>
+
+    <div class="session-row">
+      <div>
+        <div class="sess-user">Veículo #VE-0055</div>
+        <div class="sess-detail">Est. 03 · pré-pago · ontem 23:30</div>
+      </div>
+      <div class="sess-val">11,1 kWh · R$ 9,44</div>
+    </div>
+
+    <div class="session-row" id="live-session" style="display:none;">
+      <div>
+        <div class="sess-user">
+          Veículo #VE-LIVE
+          <span class="badge badge-live" style="vertical-align:middle;">ao vivo</span>
+        </div>
+        <div class="sess-detail">Est. 03 · pós-pago · agora</div>
+      </div>
+      <div class="sess-val" id="live-val">—</div>
+    </div>
+
+  </div>
+
+  <!-- ── Dependências e lógica ──────────────────────────── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
