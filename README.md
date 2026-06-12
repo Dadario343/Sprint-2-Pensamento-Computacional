@@ -150,7 +150,8 @@ chargegrid/
 ├── style.css                # Estilos do dashboard
 ├── script.js                # Lógica de simulação e atualização em tempo real
 │
-└── chargegrid_cobranca.py   # Sistema de cobrança no terminal (pré/pós-pago)
+Painel de controle
+└── Painel.py # Sistema de cobrança no terminal (pré/pós-pago)
 ```
 
 ### Dashboard web (`index.html` + `script.js` + `style.css`)
