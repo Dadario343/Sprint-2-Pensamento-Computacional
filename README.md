@@ -144,7 +144,7 @@ flowchart LR
 ## Componentes de software
 
 ```
-chargegrid/
+Dashboard/
 │
 ├── index.html               # Dashboard de monitoramento web
 ├── style.css                # Estilos do dashboard
@@ -162,7 +162,7 @@ Painel de controle
 - Gráfico de potência em tempo real com Chart.js
 - Botões para iniciar e encerrar sessões de carregamento
 
-### Sistema de cobrança CLI (`chargegrid_cobranca.py`)
+### Sistema de cobrança CLI (`Painel.py`)
 
 - Menu interativo no terminal
 - **Pré-pago:** limita o carregamento ao crédito inserido e encerra automaticamente
@@ -189,7 +189,7 @@ python3 -m http.server 8080
 Requer Python 3.6 ou superior. Nenhuma biblioteca externa necessária.
 
 ```bash
-python3 chargegrid_cobranca.py
+python3 Painel.py
 ```
 
 Exemplo de sessão pré-pago:
@@ -206,6 +206,36 @@ Exemplo de sessão pré-pago:
   Crédito carregado : R$ 20,00
   Energia disponível: 23,529 kWh
   Tarifa aplicada   : R$ 0,85/kWh
+
+  Opção: 2
+
+  MODO PÓS-PAGO
+  O carregamento ocorre livremente.
+  O valor é cobrado ao final da sessão.
+
+  ID do veículo (ex: VE-2841): VE-1193
+
+  Pressione ENTER para iniciar o carregamento...
+
+  Simulando carregamento em tempo real...
+  (intervalo comprimido: 1 tick = ~10 min reais)
+
+   40s | 9,23 kW | 0,102 kWh | R$ 0,09 | Demanda ✓  NORMAL
+
+  📄  RECIBO — PÓS-PAGO
+  Veículo           : #VE-1193
+  Energia consumida : 0,102 kWh
+  Tarifa aplicada   : R$ 0,85/kWh
+  Total a pagar     : R$ 0,09
+
+  Formas de pagamento disponíveis:
+    [1] PIX
+    [2] Cartão de crédito
+    [3] App ChargeGrid
+
+  Escolha: 1
+
+  ✅  Pagamento via PIX confirmado — R$ 0,09
 ```
 
 ---
