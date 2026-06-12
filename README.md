@@ -124,21 +124,6 @@ flowchart LR
     E --> C[Atualiza custo\nCusto = E kWh × R$ 0,85]
     C --> S
 ```
-
----
-
-## Componentes de hardware (protótipo físico)
-
-| Componente | Função |
-|---|---|
-| **Sensor de Efeito Hall** | Mede a corrente elétrica que passa pelo cabo de carga sem contato direto |
-| **ESP32** | Microcontrolador com Wi-Fi integrado; processa os dados e os envia ao servidor |
-| **Caixa MDF** | Estrutura física do protótipo representando a estação de recarga |
-| **Extensão elétrica** | Simula o cabo de carga do ponto de recarga |
-| **Carregador de pilha AAA** | Fonte de alimentação do circuito durante a demonstração |
-
-> O protótipo foi montado com uma caixinha de MDF, um carrinho de plástico representando o VE e o QR Code impresso na face frontal da estação para identificação do usuário.
-
 ---
 
 ## Componentes de software
